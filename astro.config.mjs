@@ -8,6 +8,9 @@
 
 // @ts-check
 export default /** @type {import('astro').AstroUserConfig} */ ({
+	buildOptions :{
+		site:'https://docs-with-astro.netlify.app/',
+	},
 	// Comment out "renderers: []" to enable Astro's default component support.
 	renderers: [],
 });
