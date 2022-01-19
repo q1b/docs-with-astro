@@ -1,0 +1,80 @@
+---
+export interface Props {
+	content: any;
+	site: any;
+	canonicalURL: URL;
+}
+
+const SITE = {
+	title: "Postfolio Website Supri/Sukhp",
+	description:
+		"Learning web faster together, as well Thinking about how to make learning faster.",
+};
+
+const OPEN_GRAPH = {
+	locale: "en_US",
+	image: {
+		src: "/default-og-image.png?v=1",
+		alt:
+			"Myself Sukhpreet Singh I have nothing to say about myself, " +
+			"But I would like to say that I am grateful for all the youtube videos and free resources like docs done very well online which help all of us to bring a change in society, really grateful for all of online educational stuff.",
+	},
+	twitter: "XSukhpreet",
+};
+
+const { content = {}, canonicalURL, site } = Astro.props;
+const imageSrc = content?.image?.src ?? OPEN_GRAPH.image.src;
+
+const canonicalImageSrc = new URL(imageSrc, Astro.site);
+
+const imageAlt = content?.image?.alt ?? OPEN_GRAPH.image.alt;
+// const lang = canonicalURL && getLanguageFromURL(canonicalURL.pathname);
+---
+
+<title>{content.title ?? SITE.title}</title>
+
+<meta
+	name="keywords"
+	content="WEB Developer and software Engineer, Mastered HTML, CSS, JavaScript, Vue and Basics of React yet Now,"
+/>
+<meta name="author" content="XSukhpreet" />
+
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="white"
+/>
+
+<meta
+	name="theme-color"
+	media="(prefers-color-scheme: dark)"
+	content="rgb(3,14,28)"
+/>
+
+<!-- Page Metadata -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Algolia docsearch language facet -->
+<!-- <meta name="docsearch:language" content="{lang}" /> -->
+
+<!-- OpenGraph Tags -->
+<meta property="og:title" content={content.title ?? SITE.title} />
+<meta property="og:type" content="article" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:locale" content={content.ogLocale ?? OPEN_GRAPH.locale} />
+<meta property="og:image" content={canonicalImageSrc} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta
+	name="description"
+	property="og:description"
+	content={content.description ? content.description : SITE.description}
+/>
+<meta property="og:site_name" content={SITE.title} />
+
+<!-- Twitter Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={OPEN_GRAPH.twitter} />
+<meta name="twitter:title" content={content.title ?? SITE.title} />
+<meta
+	name="twitter:description"
+	content={content.description ? content.description : SITE.description}
+/>
+<meta name="twitter:image" content={canonicalImageSrc} />
+<meta name="twitter:image:alt" content={imageAlt} />

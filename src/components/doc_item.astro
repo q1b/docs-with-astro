@@ -1,0 +1,15 @@
+---
+const { uid, title, link, depth }= Astro.props;
+---
+
+<li class="w-full rounded-lg flex flex-col items-start pl-2 py-[3px] gap-y-[3px]">
+	<a
+		href={link}
+		class="text-slate-300 w-max"
+	>
+    	<p id={uid} class="line-clamp-1 transition-colors ease-in duration-200 text-sm" >
+    	  {title ?? "Us of ni okay"}
+    	</p>
+	</a>
+  <slot/>
+</li>

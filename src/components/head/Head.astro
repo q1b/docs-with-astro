@@ -1,0 +1,8 @@
+---
+import HeadCommon from "./HeadCommon.astro";
+import HeadSEO from "./HeadSEO.astro";
+const { content, isMarkdown = false, canonicalURL } = Astro.props;
+---
+
+<HeadCommon />
+<HeadSEO site="" {content} {canonicalURL} />

@@ -1,0 +1,54 @@
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: hsl(210deg, 50%, 21%);
+}
+
+/* Scroll bar thumb element */
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: hsl(210deg, 50%, 71%);
+  border: 2px solid hsl(210deg, 50%, 41%);
+}
+
+/* Scroll bar track element */
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: transparent;
+}
+
+.sc {
+  scrollbar-gutter: 10px;
+}
+
+.sc::-webkit-scrollbar {
+  width: 12px;
+  background-color: #0000;
+}
+
+.sc::-webkit-scrollbar-track {
+  background-color: hsla(200deg, 70%, 50%, 0.1);
+  border-radius: 100px;
+}
+
+.sc::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  border: 3px dotted hsla(200deg, 100%, 20%, 0);
+  /* border-left: 5px solid; */
+  background-clip: content-box;
+  background-color: hsla(200deg, 30%, 50%, 0.7);
+}
+
+.sc::-webkit-scrollbar-thumb:hover {
+  border: 3px dotted hsla(200deg, 100%, 20%, 0.4);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Flow";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/flow-circular.woff") format("woff");
+}
