@@ -1,6 +1,6 @@
 ---
-layout: "../layouts/docs.astro"
-title: Hello World
+layout: "../layouts/ex.astro"
+title: Example
 description: Just a demo project to showcase layout and design of markdown or blog post
 ---
 
@@ -41,3 +41,10 @@ Life is growing and expanding faster then it was in past, but there is also thin
 
 ## Awesome world
 Love is life
+
+## Happy life
+It's wired
+
+## okay
+
+## I seeing

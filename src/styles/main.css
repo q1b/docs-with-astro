@@ -52,3 +52,21 @@
   font-style: normal;
   src: url("/flow-circular.woff") format("woff");
 }
+
+@font-face {
+	font-family: "Manrope";
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	font-named-instance: "Regular";
+	src: url("/fonts/Manrope\[wght\].woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Cascadia Code PL";
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	font-named-instance: "Regular";
+	src: url("/fonts/CascadiaCodePL.woff2") format("woff2");
+}

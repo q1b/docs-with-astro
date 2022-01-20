@@ -1,0 +1,137 @@
+---
+import { Icon } from 'astro-icon'
+
+import Head from "../components/head/Head.astro";
+import RightSidebar from "reactive-astro-sidebar"
+
+
+const { content } =Astro.props;
+
+const canonicalURL = Astro.request.canonicalURL;
+const headers = content.astro.headers;
+
+const staticClass = "text-sm" 
+const containerClass = " pl-2 py-[3px] gap-y-[3px]";
+const activeClass = "text-white"
+const linkClass = "underline";
+const inActiveClass = "text-slate-500"
+const activeGroupClass = "border-l-2"
+const inActiveGroupClass = "border-l-0"
+const activeLiClass = "border-l-0"
+const inActiveLiClass = "border-l-0"
+
+let o = -1;
+---
+ 
+<html lang="en">
+	<head>
+		<Head {content} {canonicalURL} />
+	</head>
+	<body class="bg-[#051a36] flex flex-col items-center px-8">
+		<section class="bg-[#051a36] flex flex-col items-center justify-center gap-y-10 w-full py-10 ">
+			<h1 class="text-9xl text-white w-max">Example</h1>
+			<nav class="">
+				<ul class="flex space-x-6">
+					<li class="text-white">
+						<a href="/" class="flex items-center" >
+							<span class="w-8 h-8"> 
+								<Icon pack="ri" name="home-line" />
+							</span>
+							<span class="text-2xl leading-6">Home</span>
+						</a>
+					</li>
+                    <li class="text-white">
+                        <a href="/" class="flex items-center" >
+                            <span class="w-6 h-6"> 
+                                <Icon pack="twemoji" name="technologist-medium-light-skin-tone" />
+                            </span>
+                            <span class="text-2xl">setup</span>
+                        </a>
+                    </li>
+                    <li class="text-white">
+                        <a href="/" class="flex items-center" >
+                            <span class="w-8 h-8"> 
+                                <Icon pack="fluent" name="style-guide-24-regular" />
+                            </span>
+                            <span class="text-2xl">Guide</span>
+                        </a>
+                    </li>
+                    <li class="text-white">
+                        <a href="/" class="flex items-center" >
+                            <span class="w-8 h-8">
+                                <Icon pack="ant-design" name="api-outlined" />
+                            </span>
+                            <span class="text-2xl">API</span>
+                        </a>
+                    </li>
+				</ul>
+			</nav>
+		</section>
+		<main class="bg-[#030E1C] max-w-7xl rounded-t-2xl flex w-full py-10 font-flow">
+			<section
+				class="h-full min-h-screen my-10 sticky inset-0 w-56 flex-shrink-0 py-24 pr-6 flex flex-col"
+			>
+				<aside
+					class="bg-sky-500/5 rounded-r-lg py-6 px-4 flex flex-col gap-y-3 items-center"
+				>
+					<h1 class="text-white text-xl">
+						Astro + Alpinejs
+					</h1>
+					<ul class=" w-full pl-2.5">
+						{[1,2,3].map((txt)=>(
+							<li class="text-white">
+								Uses of Javasclop
+							</li>
+						))}
+					</ul>
+				</aside>
+			</section>
+			<main
+				class="min-h-screen w-full prose prose-invert prose-h1:font-mono prose-h2:font-mono prose-h3:font-mono prose-h4:font-mono  max-w-4xl"
+			>
+				<slot />
+			</main>
+			<section
+				class="h-screen sticky inset-0 w-[216px] flex-shrink-0 p-4 flex flex-col items-center justify-center"
+			>
+				<aside
+					id="container-onPage-content"
+					class="bg-[#00112B] w-full min-h-[16rem] max-h-[20rem] rounded-xl p-4 flex flex-col gap-y-4"
+				>
+					<h1 class="text-white text-lg leading-3">
+						On this page
+					</h1>
+					<RightSidebar {headers} {containerClass} {linkClass} {activeGroupClass} {inActiveGroupClass} {activeLiClass} {inActiveLiClass} {activeClass} {staticClass} {inActiveClass} />
+				</aside>
+				<div
+					id="social-media-content"
+					class="w-full h-32 rounded-xl pt-8 px-2"
+				>
+					<ul class="flex flex-col gap-3">
+						<li
+							class="bg-blue-500 w-full px-2 rounded-lg"
+						>
+							<a href="" class="text-white">
+								Share on twitter
+							</a>
+						</li>
+						<li
+							class="bg-slate-500 my-auto w-full px-2 rounded-lg"
+						>
+							<a href="" class="text-white">
+								Share on twitter
+							</a>
+						</li>
+						<li
+							class="bg-slate-300 my-auto w-full px-2 rounded-lg"
+						>
+							<a href="" class="text-slate-700">
+								Share on twitter
+							</a>
+						</li>
+					</ul>
+				</div>
+			</section>
+		</main>
+	</body>
+</html>

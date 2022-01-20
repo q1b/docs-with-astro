@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   experimental: {
     optimizeUniversalDefaults: true,
@@ -7,6 +9,8 @@ module.exports = {
     extend: {
       fontFamily: {
         flow: "Flow",
+        sans: ["Manrope", ...defaultTheme.fontFamily.sans],
+        mono: ['Cascadia Code PL', ...defaultTheme.fontFamily.mono],
       },
       colors: ({ theme }) => ({
         slate: {
@@ -17,9 +21,9 @@ module.exports = {
         DEFAULT: {
           css: {
             maxWidth: "none",
-            color: theme("colors.gray.700"),
+            color: theme("colors.slate.700"),
             hr: {
-              borderColor: theme("colors.gray.100"),
+              borderColor: theme("colors.slate.100"),
               marginTop: "3em",
               marginBottom: "3em",
             },
@@ -39,7 +43,7 @@ module.exports = {
             },
             "h2 small, h3 small, h4 small": {
               fontFamily: theme("fontFamily.mono").join(", "),
-              color: theme("colors.gray.500"),
+              color: theme("colors.slate.500"),
               fontWeight: 500,
             },
             "h2 small": {
@@ -66,7 +70,7 @@ module.exports = {
               top: "calc(0.875em - 0.0625em)",
               left: 0,
               borderRadius: "999px",
-              backgroundColor: theme("colors.gray.300"),
+              backgroundColor: theme("colors.slate.300"),
             },
             a: {
               fontWeight: theme("fontWeight.semibold"),
@@ -81,7 +85,7 @@ module.exports = {
               fontWeight: "inherit",
             },
             strong: {
-              color: theme("colors.gray.900"),
+              color: theme("colors.slate.900"),
               fontWeight: theme("fontWeight.semibold"),
             },
             "a strong": {
@@ -93,7 +97,7 @@ module.exports = {
               fontVariantLigatures: "none",
             },
             pre: {
-              color: theme("colors.gray.50"),
+              color: theme("colors.slate.50"),
               borderRadius: theme("borderRadius.xl"),
               padding: theme("padding.5"),
               boxShadow: theme("boxShadow.md"),
@@ -116,15 +120,15 @@ module.exports = {
               lineHeight: theme("fontSize.sm")[1].lineHeight,
             },
             thead: {
-              color: theme("colors.gray.700"),
-              borderBottomColor: theme("colors.gray.200"),
+              color: theme("colors.slate.700"),
+              borderBottomColor: theme("colors.slate.200"),
             },
             "thead th": {
               paddingTop: 0,
               fontWeight: theme("fontWeight.semibold"),
             },
             "tbody tr": {
-              borderBottomColor: theme("colors.gray.100"),
+              borderBottomColor: theme("colors.slate.100"),
             },
             "tbody tr:last-child": {
               borderBottomWidth: "1px",
@@ -143,21 +147,22 @@ module.exports = {
         },
         dark: {
           css: {
-            color: theme("colors.gray.400"),
+            color: theme("colors.slate.400"),
             "h2, h3, h4, thead th": {
-              color: theme("colors.gray.200"),
+              color: theme("colors.slate.200"),
             },
             "h2 small, h3 small, h4 small": {
-              color: theme("colors.gray.400"),
+              color: theme("colors.slate.400"),
             },
             code: {
-              color: theme("colors.gray.200"),
+              color: theme("colors.slate.200"),
             },
             hr: {
-              borderColor: theme("colors.gray.200"),
+              borderColor: theme("colors.slate.200"),
               opacity: "0.05",
             },
             pre: {
+              backgroundColor: theme("colors.slate.900"),
               boxShadow: "inset 0 0 0 1px rgb(255 255 255 / 0.1)",
             },
             a: {
@@ -165,10 +170,10 @@ module.exports = {
               borderBottomColor: theme("colors.sky.400"),
             },
             strong: {
-              color: theme("colors.gray.200"),
+              color: theme("colors.slate.200"),
             },
             thead: {
-              color: theme("colors.gray.300"),
+              color: theme("colors.slate.300"),
               borderBottomColor: "rgb(148 163 184 / 0.2)",
             },
             "tbody tr": {

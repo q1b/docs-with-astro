@@ -1,0 +1,395 @@
+---
+import DocItem from "./doc_item.astro";
+
+let { 
+    headers,
+    groupContainerClass="pr-[2.5px]",
+    activeGroupClass,
+    inActiveGroupClass,
+    linkClass,
+    containerClass="",
+    staticClass,
+    activeClass,
+    inActiveClass,
+    activeLiClass,
+    inActiveLiClass,
+} = Astro.props;
+
+if (typeof staticClass === 'object') {
+     staticClass = {
+        h1: ["text-sm"],
+        h2: ["text-sm"],
+        h3: ["text-sm"],
+        h4: ["text-sm"],
+        ...staticClass
+    };
+}else{
+    staticClass = {
+        h1: [staticClass],
+        h2: [staticClass],
+        h3: [staticClass],
+        h4: [staticClass],
+    }
+}
+
+if (typeof containerClass === 'object') {
+      containerClass = {
+        h1: ["pl-2 py-[3px] gap-y-[3px]"],
+        h2: ["pl-2 py-[3px] gap-y-[3px]"],
+        h3: ["pl-2 py-[3px] gap-y-[3px]"],
+        h4: ["pl-2 py-[3px] gap-y-[3px]"],
+        ...containerClass
+    };
+}else{
+     containerClass= {
+        h1: [containerClass],
+        h2: [containerClass],
+        h3: [containerClass],
+        h4: [containerClass],
+    }
+}
+
+if (typeof linkClass === 'object') {
+     linkClass = {
+        h1: [""],
+        h2: [""],
+        h3: [""],
+        h4: [""],
+        ...linkClass
+    };
+}else{
+    linkClass = {
+        h1: [linkClass],
+        h2: [linkClass],
+        h3: [linkClass],
+        h4: [linkClass],
+    }
+}
+
+// Class to be applied H2,H3,H4 those are in viewport
+if (typeof activeClass === 'object') {
+     activeClass = {
+        h1: ["text-white"],
+        h2: ["text-white"],
+        h3: ["text-white"],
+        h4: ["text-white"],
+        ...activeClass
+    };
+}else{
+    activeClass = {
+        h1: [activeClass],
+        h2: [activeClass],
+        h3: [activeClass],
+        h4: [activeClass],
+    }
+}
+// Classes to be applied when H2,H3,H4 are not in viewport
+if (typeof inActiveClass === 'object') {
+     inActiveClass = {
+        h1: ["text-slate-500"],
+        h2: ["text-slate-500"],
+        h3: ["text-slate-500"],
+        h4: ["text-slate-500"],
+        ...inActiveClass
+    };
+}else{
+    inActiveClass = {
+        h1: [inActiveClass],
+        h2: [inActiveClass],
+        h3: [inActiveClass],
+        h4: [inActiveClass],
+    }
+}
+
+function returnArrows(arr,type) {
+    const arr_itr = arr[Symbol.iterator]();
+    let result = {};
+    let prev;
+    while(true){
+        let b = arr_itr.next();
+        if(prev == undefined)
+            prev = b;
+        while ( b.value?.depth >= prev.value?.depth) {
+            let prev1 = b;
+            result[b.value[type]] = {};
+            b = arr_itr.next();
+            while (b.value?.depth > prev1.value?.depth) {
+                let prev2 = b;
+                b = arr_itr.next();
+                result[prev1.value[type]][prev2.value[type]] = {};
+                while (b.value?.depth > prev2.value?.depth) {
+                    let prev3 = b;
+                    b = arr_itr.next();
+                    result[prev1.value[type]][prev2.value[type]][prev3.value[type]] = {};
+                    while (b.value?.depth > prev3.value?.depth) {
+                        let prev4 = b;
+                        b = arr_itr.next();
+                        result[prev1.value[type]][prev2.value[type]][prev3.value[type]][prev4.value[type]] = {};
+                    }
+                }
+            }
+        }
+        if (b.done) {
+          break;
+        }
+        prev = b;
+    }
+    return result;
+}
+
+let arrowDepthHeadings = returnArrows(headers,"text");
+
+let arrowDepthSlug = returnArrows(headers,"slug");
+let o = -1;
+---
+<ul class={`flex flex-col overflow-y-auto sc font-sans ${groupContainerClass} ${inActiveLiClass}`}>
+{
+   Object.keys(arrowDepthHeadings).map((i,index)=>{
+     o++;
+     return (
+       <DocItem
+       {inActiveClass}  
+        id={Object.keys(arrowDepthSlug)[index]+'-link'}  
+         link={'#'+Object.keys(arrowDepthSlug)[index]} 
+         title={`${i}`}
+         {containerClass} staticClass={staticClass}  {linkClass}
+         depth={2}
+       >
+         {
+           Object.keys(arrowDepthHeadings[i]).length===0 ? null : (
+             <ul class={`flex flex-col relative ${groupContainerClass} ${inActiveLiClass ?? ''}`}>
+               {
+                 Object.keys(arrowDepthHeadings[i]).map((j,jIndex)=>{
+                   o++;
+                   return(
+                     <DocItem
+                        {inActiveClass}
+                        id={Object.keys(Object.values(arrowDepthSlug)[index])[jIndex]+'-link'}  
+                        link={'#'+Object.keys(Object.values(arrowDepthSlug)[index])[jIndex]}
+                        title={`${j}`}
+                        {containerClass} {staticClass}  {linkClass}
+                        depth={3}
+                     >
+                       {
+                         Object.keys(arrowDepthHeadings[i][j]).length===0 ? null : (
+                           <ul class={`flex flex-col relative ${groupContainerClass} ${inActiveLiClass ?? ''}`}>
+                             {
+                               Object.keys(arrowDepthHeadings[i][j]).map((k,kIndex) => {
+                                 o++;
+                                 return (
+                                   <DocItem
+                                   {inActiveClass} 
+                                    id={Object.keys(Object.values(Object.values(arrowDepthSlug)[index])[jIndex])[kIndex]+'-link'}
+                                     link={'#'+Object.keys(Object.values(Object.values(arrowDepthSlug)[index])[jIndex] )[kIndex]}  
+                                     title={` ${k}`}
+                                     {containerClass} {staticClass}  {linkClass}
+                                     depth={4}
+                                   >
+                                   </DocItem>
+                                 )
+                               })
+                             }
+                           </ul>
+                         )
+                       }
+                     </DocItem>
+                   )
+                 })
+               }
+             </ul>
+           )
+         }
+       </DocItem>
+     )
+   })
+ }
+</ul>
+<script hoist define:vars={{headers,activeClass,activeLiClass,activeGroupClass,inActiveClass,inActiveLiClass,inActiveGroupClass}}>
+let elementsDetails = {};
+
+let scrolling = "down";
+
+let prev_h1;
+let prev_h2;
+let prev_h3;
+let prev_h4;
+
+
+// Utility functions
+function removeClass(elementId, Classes) {
+  document.getElementById(elementId).classList.remove(...Classes);
+}
+
+function addClass(elementId, Classes) {
+  document.getElementById(elementId).classList.add(...Classes);
+}
+
+function applyActiveClass(elementName, elementId) {
+  removeClass(elementId, inActiveClass[elementName]);
+  addClass(elementId, activeClass[elementName]);
+  if(activeLiClass !== undefined){
+    document.getElementById(elementId).parentElement.classList.remove(inActiveLiClass);
+    document.getElementById(elementId).parentElement.classList.add(activeLiClass);
+  }
+  if(activeGroupClass !== undefined){
+    document.getElementById(elementId).parentElement.parentElement.classList.remove(inActiveGroupClass);
+    document.getElementById(elementId).parentElement.parentElement.classList.add(activeGroupClass);
+  }
+}
+
+function applyInactiveClass(elementName, elementId) {
+  removeClass(elementId, activeClass[elementName]);
+  addClass(elementId, inActiveClass[elementName]);
+  if(activeLiClass !== undefined){
+    document.getElementById(elementId).parentElement.classList.remove(activeLiClass);
+    document.getElementById(elementId).parentElement.classList.add(inActiveLiClass);
+  }
+  if(activeGroupClass!== undefined){
+    document.getElementById(elementId).parentElement.parentElement.classList.remove(activeGroupClass);
+    document.getElementById(elementId).parentElement.parentElement.classList.add(inActiveGroupClass);
+  }
+}
+
+// isUndefined
+function isDefined(value) {
+  return value !== undefined;
+}
+
+function unsetAppliedClass(...previousElements) {
+  previousElements.forEach((previousElement) => {
+    isDefined(previousElement)
+      ? applyInactiveClass("h2", previousElement.id)
+      : null;
+  });
+}
+
+function getParentPTag(elementId) {
+  return getRelativeLinkElement(elementId).parentElement.parentElement // `p` tag // `a` tag //  `li` tag
+    .parentElement.previousElementSibling.firstElementChild; // `ul` tag // Parent `a` tag // Parent's `p` tag
+}
+
+function getRelativeLinkElement(elementId) {
+  return document.getElementById(elementId + "-link");
+}
+
+function isChildless(elementId) {
+  return (
+    getRelativeLinkElement(elementId).parentElement.nextElementSibling === null
+  );
+}
+
+window.onload = () => {
+  /* Here, all static values are going to evalute then add to elementDetails */
+  for (let index = 0; index < headers.length; index++) {
+    const element = headers[index];
+    const id = element["slug"];
+    let is_childless = isChildless(id);
+    let current_element = getRelativeLinkElement(id);
+    let y_pos = 20;
+    let parent_element;
+    // grandparent_element is like parent's parent element
+    let grandparent_element;
+    if (element["depth"] === 2) parent_element = null;
+    else { 
+        parent_element = getParentPTag(id)
+    };
+    if (element['depth'] === 4) { 
+        grandparent_element = getParentPTag(parent_element.id.replace('-link',''));
+    }else{
+        grandparent_element = null;
+    }
+    
+    elementsDetails[id] = {
+      is_childless,
+      current_element,
+      y_pos,
+      parent_element,
+      grandparent_element,
+    };
+    document.getElementById(id).classList.add("scroll-mt-16");
+  }
+
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      for (let index = 0; index < entries.length; index++) {
+        let entry = entries[index];
+        if (entry.isIntersecting) {
+          let { y_pos, is_childless, current_element, parent_element, grandparent_element } =
+            elementsDetails[entry.target.id];
+
+          y_pos > entry.boundingClientRect.y
+            ? (scrolling = "up")
+            : (scrolling = "down");
+          elementsDetails[entry.target.id]["y_pos"] =
+            entry.boundingClientRect.y;
+
+          switch (entry.target.tagName) {
+            case "H2":
+              // if (!is_childless) return;
+              // If it's childless then return nothing
+              if (prev_h2 !== current_element) {
+                unsetAppliedClass(prev_h2, prev_h3, prev_h4);
+                prev_h2 = current_element;
+                applyActiveClass("h2", prev_h2.id);
+              }
+              break;
+            case "H3":
+              if (prev_h2 !== parent_element) {
+                unsetAppliedClass(prev_h2, prev_h3, prev_h4);
+                prev_h2 = parent_element;
+                applyActiveClass("h2", prev_h2.id);
+              }
+              if (prev_h3 !== current_element) {
+                unsetAppliedClass(prev_h3);
+                prev_h3 = current_element;
+                applyActiveClass("h3", prev_h3.id);
+              }
+              break;
+            case "H4":
+                if(prev_h2 !== grandparent_element){
+                    unsetAppliedClass(prev_h2);
+                    prev_h2 = grandparent_element;
+                    applyActiveClass("h2", prev_h2.id);
+                }
+                if (prev_h3 !== parent_element) {
+                  unsetAppliedClass(prev_h3, prev_h4);
+                  prev_h3 = parent_element;
+                  applyActiveClass("h3", prev_h3.id);
+                }
+                if (prev_h4 !== current_element) {
+                  unsetAppliedClass(prev_h4);
+                  prev_h4 = current_element;
+                  applyActiveClass("h4", prev_h4.id);
+                }
+                break;
+            default:
+              break;
+          }
+        } else {
+          switch (entry.target.tagName) {
+            case "H2":
+              if (elementsDetails[entry.target.id]["is_childless"]) {
+              }
+              break;
+            case "H3":
+              break;
+            case "H4":
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    },
+    {
+      root: document.querySelector("root"),
+      rootMargin: "0px 0px",
+      threshold: 0,
+    }
+  );
+
+  for (let index = 0; index < headers.length; index++) {
+    observer.observe(document.getElementById(headers[index]["slug"]));
+  }
+};
+</script>

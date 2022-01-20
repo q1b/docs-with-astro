@@ -77,7 +77,6 @@ function isChildless(elementId) {
   );
 }
 /* Here, all static values are going to evalute then add to elementDetails */
-
 for (let index = 0; index < headers.length; index++) {
   const element = headers[index];
   const id = element['slug'];

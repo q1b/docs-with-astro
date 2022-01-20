@@ -1,52 +1,20 @@
 ---
 import Head from "../components/head/Head.astro";
-import DocItem from "../components/doc_item.astro"
+import RightSidebar from "reactive-astro-sidebar"
 
 const { content } =Astro.props;
-
+const data = Astro.fetchContent('../pages/*.md');
+console.log(Object.keys(data[1]));
 const canonicalURL = Astro.request.canonicalURL;
 const headers = content.astro.headers;
 
-function returnArrows(arr,type) {
-    const arr_itr = arr[Symbol.iterator]();
-    let result = {};
-    let prev;
-    while(true){
-        let b = arr_itr.next();
-        if(prev == undefined)
-            prev = b;
-        while ( b.value?.depth >= prev.value?.depth) {
-            let prev1 = b;
-            result[b.value[type]] = {};
-            b = arr_itr.next();
-            while (b.value?.depth > prev1.value?.depth) {
-                let prev2 = b;
-                b = arr_itr.next();
-                result[prev1.value[type]][prev2.value[type]] = {};
-                while (b.value?.depth > prev2.value?.depth) {
-                    let prev3 = b;
-                    b = arr_itr.next();
-                    result[prev1.value[type]][prev2.value[type]][prev3.value[type]] = {};
-                    while (b.value?.depth > prev3.value?.depth) {
-                        let prev4 = b;
-                        b = arr_itr.next();
-                        result[prev1.value[type]][prev2.value[type]][prev3.value[type]][prev4.value[type]] = {};
-                    }
-                }
-            }
-        }
-        if (b.done) {
-          break;
-        }
-        prev = b;
-    }
-    return result;
-}
-
-console.log(headers)
-let arrowDepthHeadings = returnArrows(headers,"text");
-
-let arrowDepthSlug = returnArrows(headers,"slug"); // Basically Id of H1,H2,H3,H4
+const staticClass = "w-32 text-sm" 
+const containerClass = "pl-0.5 py-[3px] gap-y-[3px]";
+const activeClass = "text-white"
+const linkClass = "underline";
+const inActiveClass = "text-slate-500"
+const activeGroupClass = "border-l-0"
+const inActiveGroupClass = "border-l-0"
 let o = -1;
 ---
  
@@ -54,7 +22,7 @@ let o = -1;
 	<head>
 		<Head {content} {canonicalURL} />
 	</head>
-	<body class="bg-[#030E1C] flex w-full py-10 font-flow">
+	<body class="bg-[#030E1C] flex w-full py-10 ">
 		<section
 			class="h-full min-h-screen my-10 sticky inset-0 w-56 flex-shrink-0 py-24 pr-6 flex flex-col"
 		>
@@ -62,19 +30,21 @@ let o = -1;
 				class="bg-sky-500/5 rounded-r-lg py-6 px-4 flex flex-col gap-y-3 items-center"
 			>
 				<h1 class="text-white text-xl">
-					Astro + Alpinejs
+					Reactive Sidebar Content
 				</h1>
-				<ul class=" w-full pl-2.5">
-					{[1,2,3].map((txt)=>(
-						<li class="text-white">
-							Uses of Javasclop
+				<ul class=" w-full">
+					{data.map((d)=>(
+						<li class=" text-white">
+							<a href={d.url}>
+                            	{d.title}
+							</a>
 						</li>
 					))}
 				</ul>
 			</aside>
 		</section>
 		<main
-			class="min-h-screen w-full prose prose-invert prose-h1:font-mono prose-h2:font-mono prose-h3:font-mono prose-h4:font-mono  max-w-4xl"
+			class="min-h-screen w-full prose prose-dark max-w-4xl"
 		>
 			<slot />
 		</main>
@@ -83,67 +53,12 @@ let o = -1;
 		>
 			<aside
 				id="container-onPage-content"
-				class="bg-[#00112B] w-full min-h-[16rem] max-h-[24rem] rounded-xl p-4 flex flex-col gap-y-4"
+				class="bg-[#00112B] w-full min-h-[16rem] max-h-[20rem] rounded-xl p-4 flex flex-col gap-y-4"
 			>
 				<h1 class="text-white text-lg leading-3">
 					On this page
 				</h1>
-				<ul class="flex flex-col overflow-y-auto sc pr-[2.5px] font-sans">
-				{
-       			   Object.keys(arrowDepthHeadings).map((i,index)=>{
-       			     o++;
-       			     return (
-       			       <DocItem  
-       			         uid={Object.keys(arrowDepthSlug)[index]+'-link'}  
-       			         link={'#'+Object.keys(arrowDepthSlug)[index]} 
-       			         title={`${i}`}
-       			         depth={2}
-       			       >
-       			         {
-       			           Object.keys(arrowDepthHeadings[i]).length===0 ? null : (
-       			             <ul class="flex flex-col relative">
-       			               {
-       			                 Object.keys(arrowDepthHeadings[i]).map((j,jIndex)=>{
-       			                   o++;
-       			                   return(
-       			                     <DocItem
-       			                       uid={Object.keys(Object.values(arrowDepthSlug)[index])[jIndex]+'-link'}  
-       			                       link={'#'+Object.keys(Object.values(arrowDepthSlug)[index])[jIndex]}
-       			                       title={`${j}`}
-       			                       depth={3}
-       			                     >
-       			                       {
-       			                         Object.keys(arrowDepthHeadings[i][j]).length===0 ? null : (
-       			                           <ul class="flex flex-col relative">
-       			                             {
-       			                               Object.keys(arrowDepthHeadings[i][j]).map((k,kIndex) => {
-       			                                 o++;
-       			                                 return (
-       			                                   <DocItem 
-       			                                     uid={Object.keys(Object.values(Object.values(arrowDepthSlug)[index])[jIndex])[kIndex]+'-link'}
-       			                                     link={'#'+Object.keys(Object.values(Object.values(arrowDepthSlug)[index])[jIndex] )[kIndex]}  
-       			                                     title={` ${k}`}
-       			                                     depth={4}
-       			                                   >
-       			                                   </DocItem>
-       			                                 )
-       			                               })
-       			                             }
-       			                           </ul>
-       			                         )
-       			                       }
-       			                     </DocItem>
-       			                   )
-       			                 })
-       			               }
-       			             </ul>
-       			           )
-       			         }
-       			       </DocItem>
-       			     )
-       			   })
-       			 }
-				</ul>
+				<RightSidebar {headers} {containerClass} {linkClass} {activeGroupClass} {inActiveGroupClass} {activeClass} {staticClass} {inActiveClass} />
 			</aside>
 			<div
 				id="social-media-content"
@@ -175,7 +90,6 @@ let o = -1;
 			</div>
 		</section>
 		<!-- Script -->
-		<script define:vars={{headers}}></script>
-		<script src={Astro.resolve("../scripts/index.ts")}></script>
+		<!-- <script src={Astro.resolve("../scripts/index.ts")}></script> -->
 	</body>
 </html>
