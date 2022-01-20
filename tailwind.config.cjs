@@ -17,6 +17,7 @@ module.exports = {
           1000: "#030E1C",
         },
       }),
+      
       typography: (theme) => ({
         DEFAULT: {
           css: {
@@ -101,6 +102,7 @@ module.exports = {
               borderRadius: theme("borderRadius.xl"),
               padding: theme("padding.5"),
               boxShadow: theme("boxShadow.md"),
+              textShadow: "0 0.6px 20px #FFF2, 0 0.2px 20px #FFF2",
               display: "flex",
               marginTop: `${20 / 14}em`,
               marginBottom: `${32 / 14}em`,
@@ -148,6 +150,10 @@ module.exports = {
         dark: {
           css: {
             color: theme("colors.slate.400"),
+                        // textShadow: `0 1px 3px ${theme("colors.slate.400")}, 0 1px 2px ${theme("colors.slate.400")}`,
+            textShadow: "0 1px 3px rgba(0,17,43,0.6), 0 1px 2px rgba(0,17,43,0.4)",
+
+            // textShadow: "0 0.6px 20px currentColor, 0 0.2px 20px currentColor",
             "h2, h3, h4, thead th": {
               color: theme("colors.slate.200"),
             },

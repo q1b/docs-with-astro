@@ -3,7 +3,8 @@ import DocItem from "./doc_item.astro";
 
 let { 
     headers,
-    groupContainerClass="pr-[2.5px]",
+    containerClass="",
+    groupContainerClass="",
     activeGroupClass,
     inActiveGroupClass,
     linkClass,
@@ -11,8 +12,8 @@ let {
     staticClass,
     activeClass,
     inActiveClass,
-    activeLiClass,
-    inActiveLiClass,
+    activeLiClass="",
+    inActiveLiClass="",
 } = Astro.props;
 
 if (typeof staticClass === 'object') {
@@ -150,7 +151,7 @@ let arrowDepthHeadings = returnArrows(headers,"text");
 let arrowDepthSlug = returnArrows(headers,"slug");
 let o = -1;
 ---
-<ul class={`flex flex-col overflow-y-auto sc font-sans ${groupContainerClass} ${inActiveLiClass}`}>
+<ul class={`flex flex-col overflow-y-auto sc font-sans ${containerClass} ${groupContainerClass} ${inActiveLiClass}`}>
 {
    Object.keys(arrowDepthHeadings).map((i,index)=>{
      o++;
