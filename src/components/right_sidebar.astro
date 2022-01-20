@@ -3,8 +3,8 @@ import DocItem from "./doc_item.astro";
 
 let { 
     headers,
-    containerClass="",
-    groupContainerClass="",
+    containerClass,
+    groupContainerClass,
     activeGroupClass,
     inActiveGroupClass,
     linkClass,
@@ -12,8 +12,8 @@ let {
     staticClass,
     activeClass,
     inActiveClass,
-    activeLiClass="",
-    inActiveLiClass="",
+    activeLiClass,
+    inActiveLiClass,
 } = Astro.props;
 
 if (typeof staticClass === 'object') {
@@ -149,19 +149,18 @@ function returnArrows(arr,type) {
 let arrowDepthHeadings = returnArrows(headers,"text");
 
 let arrowDepthSlug = returnArrows(headers,"slug");
-let o = -1;
+
 ---
 <ul class={`flex flex-col overflow-y-auto sc font-sans ${containerClass} ${groupContainerClass} ${inActiveLiClass}`}>
 {
    Object.keys(arrowDepthHeadings).map((i,index)=>{
-     o++;
      return (
        <DocItem
        {inActiveClass}  
         id={Object.keys(arrowDepthSlug)[index]+'-link'}  
          link={'#'+Object.keys(arrowDepthSlug)[index]} 
          title={`${i}`}
-         {groupClass} {staticClass}  {linkClass}
+         {groupClass} {staticClass} {linkClass}
          depth={2}
        >
          {
@@ -169,7 +168,6 @@ let o = -1;
              <ul class={`flex flex-col relative ${groupContainerClass} ${inActiveLiClass ?? ''}`}>
                {
                  Object.keys(arrowDepthHeadings[i]).map((j,jIndex)=>{
-                   o++;
                    return(
                      <DocItem
                         {inActiveClass}
@@ -184,7 +182,6 @@ let o = -1;
                            <ul class={`flex flex-col relative ${groupContainerClass} ${inActiveLiClass ?? ''}`}>
                              {
                                Object.keys(arrowDepthHeadings[i][j]).map((k,kIndex) => {
-                                 o++;
                                  return (
                                    <DocItem
                                    {inActiveClass} 

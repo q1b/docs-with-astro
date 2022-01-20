@@ -1,6 +1,6 @@
 ---
 import Head from "../components/head/Head.astro";
-import RightSidebar from "reactive-astro-sidebar"
+import RightSidebar from "../components/right_sidebar.astro"
 
 const { content } =Astro.props;
 const data = Astro.fetchContent('../pages/*.md');
@@ -9,12 +9,13 @@ const canonicalURL = Astro.request.canonicalURL;
 const headers = content.astro.headers;
 
 const staticClass = "w-32 text-sm" 
-const containerClass = "pl-0.5 py-[3px] gap-y-[3px]";
+const groupClass = "pl-0.5 py-[3px] gap-y-[3px] border border-white";
 const activeClass = "text-white"
 const linkClass = "underline";
 const inActiveClass = "text-slate-500"
-const activeGroupClass = "border-l-0"
-const inActiveGroupClass = "border-l-0"
+const activeGroupClass = "border-blue-700"
+const inActiveGroupClass = "border-white"
+
 let o = -1;
 ---
  
@@ -58,7 +59,7 @@ let o = -1;
 				<h1 class="text-white text-lg leading-3">
 					On this page
 				</h1>
-				<RightSidebar {headers} {containerClass} {linkClass} {activeGroupClass} {inActiveGroupClass} {activeClass} {staticClass} {inActiveClass} />
+				<RightSidebar {headers} {groupClass} {linkClass} {activeGroupClass} {inActiveGroupClass} {activeClass} {staticClass} {inActiveClass} />
 			</aside>
 			<div
 				id="social-media-content"

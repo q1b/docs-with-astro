@@ -61,6 +61,8 @@ There are these 3 params which are essential to pass
 #### staticClass
 Simply default classes, which are not going to removed
 
+Note, Not apply same **classes** in staticClass and inActiveClass 
+
 you can a pass `string` value
 ```jsx
 const staticClass = "w-32 text-sm"
@@ -73,9 +75,9 @@ Or you can pass a complete Object specifying
     in main content
 */
 const staticClass = {
-    h2: ['text-slate-100'], 
-    h3: ['text-slate-200'],
-    h4: ['text-slate-300'],
+    h2: 'text-slate-100', 
+    h3: 'text-slate-200',
+    h4: 'text-slate-300',
 }
 ```
 
@@ -94,9 +96,9 @@ Or you can pass a complete Object specifying
     in main content
 */
 const activeClass = {
-    h2: ['text-slate-100'], 
-    h3: ['text-slate-200'],
-    h4: ['text-slate-300'],
+    h2: 'text-slate-100', 
+    h3: 'text-slate-200',
+    h4: 'text-slate-300',
 }
 ```
 
@@ -115,9 +117,9 @@ Or you can pass a complete Object specifying
     in main content
 */
 const inActiveClass = {
-    h2: ['text-slate-100'], 
-    h3: ['text-slate-200'],
-    h4: ['text-slate-300'],
+    h2: 'text-slate-100', 
+    h3: 'text-slate-200',
+    h4: 'text-slate-300',
 }
 ```
 
@@ -125,24 +127,28 @@ const inActiveClass = {
 these parameters are likly improve what you already have implemented
 There are these 3 params which are essential to pass
 
+1. [linkClass](#linkClass)
+1. [groupClass](#groupClass)
 1. [activeGroupClass](#activeGroupClass)
 1. [inActiveGroupClass](#inActiveGroupClass)
 1. [activeLiClass](#activeLiClass)
 1. [inActiveLiClass](#inActiveLiClass)
 
-#### activeGroupClass
-Not, supposed to be used yet because it is in development
+#### linkClass
+Class exposed to apply class on link element present in sidebar, 
 
-Even if you want to use it in your project then, go ahead,
+#### groupClass
+Static Class which you want to apply on group, elements itn't awesome,
+
+#### activeGroupClass
+You can really use it now!
 ```jsx
 // this is like apply over a collective group of elements,
 const activeGroupClass = "single-class"
 ```
 
 #### inActiveGroupClass
-Not, supposed to be used yet because it is in development
-
-Even if you want to use it in your project then, go ahead,
+You can really use it now!
 ```jsx
 // this is like apply over a collective group of elements,
 const inActiveGroupClass = "single-class"
