@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon'
 
 import Head from "../components/head/Head.astro";
-import RightSidebar from "reactive-astro-sidebar"
+import RightSidebar from "../components/right_sidebar.astro"
 
 
 const { content } =Astro.props;
@@ -13,21 +13,21 @@ const headers = content.astro.headers;
 const containerClass = "py-[3px] gap-y-[3px]";
 
 const staticClass = {
-    h2:["text-sm","text-white"],
-    h3:["text-sm","text-slate-200"],
-    h4:["text-sm","text-slate-400"],
+    h2:"text-sm text-white",
+    h3:"text-sm text-slate-200",
+    h4:"text-sm text-slate-400",
 }
 
 const activeClass = {
-    h2:["text-cyan-400"],
-    h3:["text-blue-200"],
-    h4:["text-blue-400"],
+    h2:"text-cyan-400",
+    h3:"text-blue-200",
+    h4:"text-blue-400",
 };
 
 const inActiveClass = {
-    h2:["text-white"],
-    h3:["text-slate-200"],
-    h4:["text-slate-400"],
+    h2:"text-white",
+    h3:"text-slate-200",
+    h4:"text-slate-400",
 };
 
 const linkClass = "underline";

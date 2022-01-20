@@ -4,7 +4,7 @@ import RightSidebar from "reactive-astro-sidebar"
 
 const { content } =Astro.props;
 const data = Astro.fetchContent('../pages/*.md');
-console.log(Object.keys(data[1]));
+
 const canonicalURL = Astro.request.canonicalURL;
 const headers = content.astro.headers;
 

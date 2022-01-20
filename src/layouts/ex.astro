@@ -1,24 +1,46 @@
 ---
-import { Icon } from 'astro-icon'
-
 import Head from "../components/head/Head.astro";
-import RightSidebar from "reactive-astro-sidebar"
-
+import { Icon } from "astro-icon"
+import RightSidebar from "../components/right_sidebar.astro"
 
 const { content } =Astro.props;
+const data = Astro.fetchContent('../pages/*.md');
 
 const canonicalURL = Astro.request.canonicalURL;
 const headers = content.astro.headers;
 
-const staticClass = "text-sm" 
-const containerClass = " pl-2 py-[3px] gap-y-[3px]";
-const activeClass = "text-white"
-const linkClass = "underline";
-const inActiveClass = "text-slate-500"
+const staticClass = {
+	h2:"text-sm",
+	h3:"text-sm",
+	h4:"text-sm",
+}
+
+const groupClass = {
+    h2:"pl-0.5 py-[3px] gap-y-[3px]",
+    h3:"pl-0.5 py-[3px] gap-y-[3px]",
+    h4:"pl-0.5 py-[3px] gap-y-[3px]",
+}
+
+const linkClass = {
+	h2:"pl-0.5 py-[3px] gap-y-[3px]",
+    h3:"pl-0.5 py-[3px] gap-y-[3px]",
+    h4:"pl-0.5 py-[3px] gap-y-[3px]",
+};
+
+const activeClass = {
+	h2:"text-sky-200",
+	h3:"text-sky-300",
+	h4:"text-sky-400",
+}
+
+const inActiveClass = {
+	h2:"text-slate-400",
+	h3:"text-slate-500",
+	h4:"text-slate-600",
+}
+
 const activeGroupClass = "border-l-2"
 const inActiveGroupClass = "border-l-0"
-const activeLiClass = "border-l-0"
-const inActiveLiClass = "border-l-0"
 
 let o = -1;
 ---
@@ -101,7 +123,7 @@ let o = -1;
 					<h1 class="text-white text-lg leading-3">
 						On this page
 					</h1>
-					<RightSidebar {headers} {containerClass} {linkClass} {activeGroupClass} {inActiveGroupClass} {activeLiClass} {inActiveLiClass} {activeClass} {staticClass} {inActiveClass} />
+					<RightSidebar {headers} {groupClass} {linkClass} {activeGroupClass} {inActiveGroupClass} {activeClass} {staticClass} {inActiveClass} />
 				</aside>
 				<div
 					id="social-media-content"

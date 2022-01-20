@@ -1,8 +1,8 @@
 ---
-const { id, title, link, depth,containerClass="pl-2 py-[3px] gap-y-[3px]",linkClass="link-class",staticClass="text-sm", inActiveClass="text-slate-100" }= Astro.props;
+const { id, title, link, depth,groupClass="pl-2 py-[3px] gap-y-[3px]",linkClass="link-class",staticClass="text-sm", inActiveClass="text-slate-100" }= Astro.props;
 ---
 
-<li class={`w-full flex flex-col items-start ${containerClass[`h${depth}`] ?? containerClass}`}>
+<li class={`w-full flex flex-col items-start ${groupClass[`h${depth}`] ?? groupClass}`}>
 	<a
 		href={link}
 		class={`${linkClass[`h${depth}`] ?? linkClass} w-max`}

@@ -7,7 +7,7 @@ let {
     activeGroupClass,
     inActiveGroupClass,
     linkClass,
-    containerClass="",
+    groupClass,
     staticClass,
     activeClass,
     inActiveClass,
@@ -17,87 +17,95 @@ let {
 
 if (typeof staticClass === 'object') {
      staticClass = {
-        h1: ["text-sm"],
-        h2: ["text-sm"],
-        h3: ["text-sm"],
-        h4: ["text-sm"],
+        h1: "text-sm",
+        h2: "text-sm",
+        h3: "text-sm",
+        h4: "text-sm",
         ...staticClass
     };
 }else{
     staticClass = {
-        h1: [staticClass],
-        h2: [staticClass],
-        h3: [staticClass],
-        h4: [staticClass],
+        h1: staticClass,
+        h2: staticClass,
+        h3: staticClass,
+        h4: staticClass,
     }
 }
-
-if (typeof containerClass === 'object') {
-      containerClass = {
-        h1: ["pl-2 py-[3px] gap-y-[3px]"],
-        h2: ["pl-2 py-[3px] gap-y-[3px]"],
-        h3: ["pl-2 py-[3px] gap-y-[3px]"],
-        h4: ["pl-2 py-[3px] gap-y-[3px]"],
-        ...containerClass
+if (typeof groupClass === 'object') {
+      groupClass = {
+        h1: "pl-2 py-[3px] gap-y-[3px]",
+        h2: "pl-2 py-[3px] gap-y-[3px]",
+        h3: "pl-2 py-[3px] gap-y-[3px]",
+        h4: "pl-2 py-[3px] gap-y-[3px]",
+        ...groupClass
     };
 }else{
-     containerClass= {
-        h1: [containerClass],
-        h2: [containerClass],
-        h3: [containerClass],
-        h4: [containerClass],
+     groupClass= {
+        h1: groupClass,
+        h2: groupClass,
+        h3: groupClass,
+        h4: groupClass,
     }
 }
 
 if (typeof linkClass === 'object') {
      linkClass = {
-        h1: [""],
-        h2: [""],
-        h3: [""],
-        h4: [""],
+        h1: "",
+        h2: "",
+        h3: "",
+        h4: "",
         ...linkClass
     };
 }else{
     linkClass = {
-        h1: [linkClass],
-        h2: [linkClass],
-        h3: [linkClass],
-        h4: [linkClass],
+        h1: linkClass,
+        h2: linkClass,
+        h3: linkClass,
+        h4: linkClass,
     }
 }
 
 // Class to be applied H2,H3,H4 those are in viewport
 if (typeof activeClass === 'object') {
-     activeClass = {
+      for (let index = 0; index < Object.keys(activeClass).length; index++) {
+        const key = Object.keys(activeClass)[index];
+        activeClass[key] = activeClass[key].split(' ');
+      }
+      activeClass = {
         h1: ["text-white"],
         h2: ["text-white"],
         h3: ["text-white"],
         h4: ["text-white"],
         ...activeClass
-    };
+      };
 }else{
     activeClass = {
-        h1: [activeClass],
-        h2: [activeClass],
-        h3: [activeClass],
-        h4: [activeClass],
+        h1: activeClass.split(' '),
+        h2: activeClass.split(' '),
+        h3: activeClass.split(' '),
+        h4: activeClass.split(' '),
     }
 }
 // Classes to be applied when H2,H3,H4 are not in viewport
+// Class to be applied H2,H3,H4 those are in viewport
 if (typeof inActiveClass === 'object') {
-     inActiveClass = {
-        h1: ["text-slate-500"],
-        h2: ["text-slate-500"],
-        h3: ["text-slate-500"],
-        h4: ["text-slate-500"],
+      for (let index = 0; index < Object.keys(inActiveClass).length; index++) {
+        const key = Object.keys(inActiveClass)[index];
+        inActiveClass[key] = inActiveClass[key].split(' ');
+      }
+      inActiveClass = {
+        h1: ["text-white"],
+        h2: ["text-white"],
+        h3: ["text-white"],
+        h4: ["text-white"],
         ...inActiveClass
-    };
+      };
 }else{
     inActiveClass = {
-        h1: [inActiveClass],
-        h2: [inActiveClass],
-        h3: [inActiveClass],
-        h4: [inActiveClass],
+        h1: inActiveClass.split(' '),
+        h2: inActiveClass.split(' '),
+        h3: inActiveClass.split(' '),
+        h4: inActiveClass.split(' '),
     }
 }
 
@@ -152,7 +160,7 @@ let o = -1;
         id={Object.keys(arrowDepthSlug)[index]+'-link'}  
          link={'#'+Object.keys(arrowDepthSlug)[index]} 
          title={`${i}`}
-         {containerClass} staticClass={staticClass}  {linkClass}
+         {groupClass} {staticClass}  {linkClass}
          depth={2}
        >
          {
@@ -167,7 +175,7 @@ let o = -1;
                         id={Object.keys(Object.values(arrowDepthSlug)[index])[jIndex]+'-link'}  
                         link={'#'+Object.keys(Object.values(arrowDepthSlug)[index])[jIndex]}
                         title={`${j}`}
-                        {containerClass} {staticClass}  {linkClass}
+                        {groupClass} {staticClass}  {linkClass}
                         depth={3}
                      >
                        {
@@ -182,7 +190,7 @@ let o = -1;
                                     id={Object.keys(Object.values(Object.values(arrowDepthSlug)[index])[jIndex])[kIndex]+'-link'}
                                      link={'#'+Object.keys(Object.values(Object.values(arrowDepthSlug)[index])[jIndex] )[kIndex]}  
                                      title={` ${k}`}
-                                     {containerClass} {staticClass}  {linkClass}
+                                     {groupClass} {staticClass}  {linkClass}
                                      depth={4}
                                    >
                                    </DocItem>
@@ -257,9 +265,10 @@ function isDefined(value) {
 
 function unsetAppliedClass(...previousElements) {
   previousElements.forEach((previousElement) => {
-    isDefined(previousElement)
-      ? applyInactiveClass("h2", previousElement.id)
-      : null;
+    if(isDefined(previousElement)) {
+      tagName = document.getElementById(previousElement.id.replace('-link','')).tagName.toLowerCase();
+      applyInactiveClass(tagName,previousElement.id)
+    }
   });
 }
 
@@ -365,20 +374,21 @@ window.onload = () => {
             default:
               break;
           }
-        } else {
-          switch (entry.target.tagName) {
-            case "H2":
-              if (elementsDetails[entry.target.id]["is_childless"]) {
-              }
-              break;
-            case "H3":
-              break;
-            case "H4":
-              break;
-            default:
-              break;
-          }
-        }
+        } 
+        // else {
+        //   switch (entry.target.tagName) {
+        //     case "H2":
+        //       if (elementsDetails[entry.target.id]["is_childless"]) {
+        //       }
+        //       break;
+        //     case "H3":
+        //       break;
+        //     case "H4":
+        //       break;
+        //     default:
+        //       break;
+        //   }
+        // }
       }
     },
     {
